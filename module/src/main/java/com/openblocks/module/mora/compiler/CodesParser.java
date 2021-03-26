@@ -96,4 +96,36 @@ public class CodesParser {
 
         return converted_xml_builder.toString();
     }
+
+    public static String generateManifest(OpenBlocksProjectMetadata metadata) {
+        return  "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n" +
+                "<manifest xmlns:android=\"http://schemas.android.com/apk/res/android\"\n" +
+                "    package=\"" + metadata.getPackageName() + "\"\n" +
+                "    android:versionCode=\"" + metadata.getVersionCode() + "\"\n" +
+                "    android:versionName=\"" + metadata.getVersionName() + "\" >\n" +
+                "\n" +
+                "    <uses-sdk\n" +
+                "        android:minSdkVersion=\"21\"\n" + // TODO: 3/26/21 Add these both to OpenBlocksProjectMetadata
+                "        android:targetSdkVersion=\"30\" />\n" +
+                "\n" +
+                "    <uses-feature android:name=\"android.hardware.touchscreen\" android:required=\"false\" />\n" +
+                "\n" +
+                "    <application\n" +
+                "        android:allowBackup=\"true\"\n" +
+                "        android:icon=\"@drawable/ic_launcher\"\n" +
+                "        android:label=\"" + metadata.getName() + "\"\n" +
+                "        android:theme=\"@style/AppTheme\" >\n" +
+                "        <activity\n" +
+                "            android:name=\"" + metadata.getPackageName() + "\"\n" +
+                "            android:label=\"" + metadata.getName() + "\"\n" +
+                "            android:screenOrientation=\"portrait\">\n" +
+                "            <intent-filter>\n" +
+                "                <action android:name=\"android.intent.action.MAIN\" />\n" +
+                "                <category android:name=\"android.intent.category.LAUNCHER\" />\n" +
+                "            </intent-filter>\n" +
+                "        </activity>\n" +
+                "    </application>\n" +
+                "\n" +
+                "</manifest>";
+    }
 }
