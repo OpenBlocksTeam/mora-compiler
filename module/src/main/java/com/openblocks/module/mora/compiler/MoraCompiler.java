@@ -2,6 +2,7 @@ package com.openblocks.module.mora.compiler;
 
 import android.content.Context;
 
+import com.android.apksigner.ApkSignerTool;
 import com.openblocks.moduleinterface.OpenBlocksModule;
 import com.openblocks.moduleinterface.callbacks.Logger;
 import com.openblocks.moduleinterface.exceptions.CompileException;
