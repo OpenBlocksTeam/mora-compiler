@@ -32,6 +32,15 @@ dependencies {
 
     implementation project(":module-interface")
 
+    // ecj compiler
+    implementation group: 'org.eclipse.jdt', name: 'ecj'
+
+    // d8 dexer
+    implementation files("libs/d8.jar")
+
+    // apksigner
+    implementation files("libs/apksigner.jar")
+
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'com.google.android.material:material:1.3.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
