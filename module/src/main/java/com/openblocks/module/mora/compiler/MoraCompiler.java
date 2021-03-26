@@ -6,12 +6,14 @@ import com.openblocks.moduleinterface.OpenBlocksModule;
 import com.openblocks.moduleinterface.callbacks.Logger;
 import com.openblocks.moduleinterface.exceptions.CompileException;
 import com.openblocks.moduleinterface.models.OpenBlocksProjectMetadata;
+import com.openblocks.moduleinterface.models.code.ParseBlockTask;
 import com.openblocks.moduleinterface.models.compiler.IncludedBinary;
 import com.openblocks.moduleinterface.models.config.OpenBlocksConfig;
 import com.openblocks.moduleinterface.projectfiles.OpenBlocksCode;
 import com.openblocks.moduleinterface.projectfiles.OpenBlocksLayout;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class MoraCompiler implements OpenBlocksModule.ProjectCompiler {
 
@@ -39,8 +41,7 @@ public class MoraCompiler implements OpenBlocksModule.ProjectCompiler {
     }
 
     @Override
-    public void initializeCompiler(ArrayList<IncludedBinary> includedBinaries) {
-
+    public void initializeCompiler(ArrayList<IncludedBinary> includedBinaries, HashMap<String, ParseBlockTask> blocksCollection) {
     }
 
     @Override
