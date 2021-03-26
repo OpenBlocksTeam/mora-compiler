@@ -42,6 +42,7 @@ public class MoraCompiler implements OpenBlocksModule.ProjectCompiler {
 
     @Override
     public void initializeCompiler(ArrayList<IncludedBinary> includedBinaries, HashMap<String, ParseBlockTask> blocksCollection) {
+        
     }
 
     @Override
