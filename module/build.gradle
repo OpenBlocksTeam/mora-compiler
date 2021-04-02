@@ -33,7 +33,7 @@ dependencies {
     implementation project(":module-interface")
 
     // ecj compiler
-    implementation group: 'org.eclipse.jdt', name: 'ecj'
+    implementation group: 'org.eclipse.jdt', name: 'ecj', version: '3.25.0'
 
     // d8 dexer
     implementation files("libs/d8.jar")
