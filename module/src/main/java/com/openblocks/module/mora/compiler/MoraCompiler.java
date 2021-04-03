@@ -22,10 +22,15 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.io.Writer;
 import java.lang.ref.WeakReference;
+import java.nio.ByteBuffer;
 import java.nio.file.Files;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -127,7 +132,7 @@ public class MoraCompiler implements OpenBlocksModule.ProjectCompiler {
 
             // Save them
             try {
-                FileUtil.writeFile(new File(cache_folder, "java_src/MainActivity.java"), java_code.getBytes());
+                FileUtil.writeFile(new File(cache_folder, "MainActivity.java"), java_code.getBytes());
                 FileUtil.writeFile(new File(cache_folder, "res/layout/activity_main.xml"), xml_code.getBytes());
                 FileUtil.writeFile(new File(cache_folder, "AndroidManifest.xml"), manifest.getBytes());
 
@@ -138,17 +143,54 @@ public class MoraCompiler implements OpenBlocksModule.ProjectCompiler {
                 return;
             }
 
-            // TODO: 4/2/21 Finish this 
+            PrintWriter out = new PrintWriter(new Writer() {
+                String data = "";
 
-            BatchCompiler.compile(new File(cache_folder, "java_src/MainActivity.java").getAbsolutePath(), null, null, new CompilationProgress() {
+                @Override
+                public void write(char[] cbuf, int off, int len) throws IOException {
+                    data += Collections.singletonList(cbuf).subList(off, off + len);
+                }
+
+                @Override
+                public void flush() throws IOException {
+                    l.info(MoraCompiler.class, "ECJ out: " + data);
+                    data = "";
+                }
+
+                @Override
+                public void close() throws IOException { }
+            });
+
+            PrintWriter err = new PrintWriter(new Writer() {
+                String data = "";
+
+                @Override
+                public void write(char[] cbuf, int off, int len) throws IOException {
+                    data += Collections.singletonList(cbuf).subList(off, off + len);
+                }
+
+                @Override
+                public void flush() throws IOException {
+                    l.err(MoraCompiler.class, "ECJ Error: " + data);
+                    data = "";
+                }
+
+                @Override
+                public void close() throws IOException { }
+            });
+
+            BatchCompiler.compile(new File(cache_folder, "MainActivity.java").getAbsolutePath(), out, err, new CompilationProgress() {
                 @Override
                 public void begin(int remainingWork) {
-
+                    l.info(MoraCompiler.class, "Beginning to compile MainActivity.java, Remaining work: " + remainingWork);
                 }
 
                 @Override
                 public void done() {
+                    l.info(MoraCompiler.class, "Finished compiling MainAcivity.java");
 
+                    // Now link stuff using aapt2
+                    // TODO: 4/3/21 this 
                 }
 
                 @Override
@@ -158,12 +200,12 @@ public class MoraCompiler implements OpenBlocksModule.ProjectCompiler {
 
                 @Override
                 public void setTaskName(String name) {
-
+                    l.trace(MoraCompiler.class, "Set task name: " + name);
                 }
 
                 @Override
                 public void worked(int workIncrement, int remainingWork) {
-
+                    l.info(MoraCompiler.this.getClass(), "Compiling MainActivity.java, Work Increment: " + workIncrement + ", Remaining work: " + remainingWork);
                 }
             });
         });
